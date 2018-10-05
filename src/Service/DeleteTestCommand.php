@@ -23,26 +23,26 @@
  * SOFTWARE.
  */
 
-namespace App\Entity\Identity;
+namespace App\Service;
 
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="FOSUser")
- */
-class User extends BaseUser
+class DeleteTestCommand
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var string
      */
-    protected $id;
+    private $id;
 
-    public function __construct()
+    public function __construct(string $id)
     {
-        parent::__construct();
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId() : string
+    {
+        return $this->id;
     }
 }

@@ -23,26 +23,26 @@
  * SOFTWARE.
  */
 
-namespace App\Entity\Identity;
+namespace App\Service;
 
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="FOSUser")
- */
-class User extends BaseUser
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+
+class DeleteTestCommandHandler implements MessageHandlerInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var LoggerInterface
      */
-    protected $id;
+    private $logger;
 
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
-        parent::__construct();
+        $this->logger = $logger;
+    }
+
+    public function __invoke(DeleteTestCommand $deleteTestCommand)
+    {
+        $this->logger->info("DeleteTestCommandHandler:__invoke");
     }
 }

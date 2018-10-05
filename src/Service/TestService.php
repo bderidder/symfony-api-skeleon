@@ -23,26 +23,27 @@
  * SOFTWARE.
  */
 
-namespace App\Entity\Identity;
+namespace App\Service;
 
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="FOSUser")
- */
-class User extends BaseUser
+class TestService
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    /** @var MessageBusInterface  */
+    private $messageBus;
 
-    public function __construct()
+    public function __construct(MessageBusInterface $messageBus)
     {
-        parent::__construct();
+        $this->messageBus = $messageBus;
+    }
+
+    public function get(string $id)
+    {
+        return $this->messageBus->dispatch(new GetTestQuery($id));
+    }
+
+    public function delete(string $id)
+    {
+        $this->messageBus->dispatch(new DeleteTestCommand($id));
     }
 }
